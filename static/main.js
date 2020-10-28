@@ -1,26 +1,26 @@
 function attachEvents(){
     var firstname = document.getElementById("firstname");
-    firstname.addEventListener("change",validateAll);
     firstname.addEventListener("change",validateFirstName);
+    firstname.addEventListener("change",validateLoginIsFree);
 
     var lastname = document.getElementById("lastname");
-    lastname.addEventListener("change",validateAll);
     lastname.addEventListener("change",validateLastName);
+    lastname.addEventListener("change",validateLoginIsFree);
 
     var login = document.getElementById("login");
-    login.addEventListener("change",validateAll);
     login.addEventListener("change",validateLogin);
+    login.addEventListener("change",validateLoginIsFree);
     
     var password = document.getElementById("password");
-    password.addEventListener("change",validateAll);
     password.addEventListener("change",validatePassword);
+    password.addEventListener("change",validateLoginIsFree);
 
     var confirmPassword = document.getElementById("confirmPassword");
-    confirmPassword.addEventListener("change",validateAll);
     confirmPassword.addEventListener("change",checkPasswordsEqual);
+    confirmPassword.addEventListener("change",validateLoginIsFree);
     
     var photo = document.getElementById("photo");
-    photo.addEventListener("change",validateAll);
+    photo.addEventListener("change",validateLoginIsFree);
 
 }
 
@@ -50,7 +50,7 @@ function validateFirstName(){
         return true;
     } else {
         if(!validateAllFlag){
-            alert("Blędne imię");
+            alert("Blędne imię");  
         }
         return false;
     }
@@ -114,66 +114,73 @@ function validateLogin () {
         return true;
     }
 }
-
-var validateAllFlag = false;
-
-function validateAll(){
-    validateAllFlag = true;
+function validateLoginIsFree(){
     login = document.getElementById("login").value;
-    if(!validateLogin()){
-        submit.disabled = true;
-        validateAllFlag = false;
-        return;
-    }
-    if(!validateFirstName()){
-        submit.disabled = true;
-        validateAllFlag = false;
-        return;
-    }
-    if(!validateLastName()){
-        submit.disabled = true;
-        validateAllFlag = false;
-        return;
-    }
-    if(!validatePassword()){
-        submit.disabled = true;
-        validateAllFlag = false;
-        return;
-    }
-    if(!checkPasswordsEqual()){
-        submit.disabled = true;
-        validateAllFlag = false;
-        return;
-    }
-    if(!validatePhoto()){
-        submit.disabled = true;
-        validateAllFlag = false;
-        return;
-    }
-    validateAllFlag = false;
-    
-    
     let requestUrl = "https://infinite-hamlet-29399.herokuapp.com/check/" + login;
     const xhr = new XMLHttpRequest();
     xhr.open("GET", requestUrl, false);
     xhr.onreadystatechange = function () {
         if(xhr.readyState == 4){
-            var jsonResponse = JSON.parse(xhr.responseText)
+            var jsonResponse = JSON.parse(xhr.responseText);
+            console.log(jsonResponse[login]);
             console.log(xhr.status);
-            console.log(jsonResponse);
-            if(xhr.status == 200 && jsonResponse[login] == 'available'){
-                submit.disabled = false;
+            if(xhr.status === 200 && jsonResponse[login] == 'available'){
+                validateOther();
+                return true;
             } else {
+                if(!validateAllFlag){
+                    alert("Login nie jest unikalny");
+                }
                 submit.disabled = true;
-                alert("Login nie jest unikalny");
                 return false;
             }
         } else {
+            submit.disabled = true;
             return false;
         }
     }
     xhr.send(null);
 }
 
-
+function validateOther(){
+    validateAllFlag = true;
+    if(!validateLogin()){
+        validateAllFlag = false;
+        submit.disabled = true;
+        return;
+    }
+    console.log(!validateFirstName());
+    if(!validateFirstName()){
+        validateAllFlag = false;
+        submit.disabled = true;
+        return;
+    }
+    console.log(!validateLastName());
+    if(!validateLastName()){
+        validateAllFlag = false;
+        submit.disabled = true;
+        return;
+    }
+    console.log(!validatePassword());
+    if(!validatePassword()){
+        validateAllFlag = false;
+        submit.disabled = true;
+        return;
+    }
+    console.log(!checkPasswordsEqual());
+    if(!checkPasswordsEqual()){
+        validateAllFlag = false;
+        submit.disabled = true;
+        return;
+    }
+    console.log(!validatePhoto());
+    if(!validatePhoto()){
+        validateAllFlag = false;
+        submit.disabled = true;
+        return;
+    }
+    validateAllFlag = false;
+    submit.disabled = false;
+}
+validateAllFlag = false;
 attachEvents();
