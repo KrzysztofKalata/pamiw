@@ -89,8 +89,6 @@ function validatePassword(){
 
 function validatePhoto () {
     var photo = document.getElementById("photo");
-    console.log(photo);
-    console.log(photo.value);
     if(photo.value === ''){
         return false;
     } else {
@@ -101,7 +99,7 @@ function validatePhoto () {
 function validateLogin () {
     login = document.getElementById("login").value;
     if(login === ''){
-        console.log('Brak loginu');
+        alert('Brak loginu');
         return false;
     }
     var letters = /^[A-Za-z]+/;
@@ -122,8 +120,6 @@ function validateLoginIsFree(){
     xhr.onreadystatechange = function () {
         if(xhr.readyState == 4){
             var jsonResponse = JSON.parse(xhr.responseText);
-            console.log(jsonResponse[login]);
-            console.log(xhr.status);
             if(xhr.status === 200 && jsonResponse[login] == 'available'){
                 validateOther();
                 return true;
@@ -149,31 +145,26 @@ function validateOther(){
         submit.disabled = true;
         return;
     }
-    console.log(!validateFirstName());
     if(!validateFirstName()){
         validateAllFlag = false;
         submit.disabled = true;
         return;
     }
-    console.log(!validateLastName());
     if(!validateLastName()){
         validateAllFlag = false;
         submit.disabled = true;
         return;
     }
-    console.log(!validatePassword());
     if(!validatePassword()){
         validateAllFlag = false;
         submit.disabled = true;
         return;
     }
-    console.log(!checkPasswordsEqual());
     if(!checkPasswordsEqual()){
         validateAllFlag = false;
         submit.disabled = true;
         return;
     }
-    console.log(!validatePhoto());
     if(!validatePhoto()){
         validateAllFlag = false;
         submit.disabled = true;
