@@ -13,10 +13,15 @@
             <h4>Witamy w formularzu rejestracyjnym, proszę podaj nam swoje dane:</h4>
             <form action="https://infinite-hamlet-29399.herokuapp.com/sender/register" method="POST" id ="register" enctype="multipart/form-data">
                 <ul>
+                    <li>Twoja UNIKATOWA nazwa użytkownika:</li>
                     <li><input type="text", id="login" name="login", placeholder="Nazwa użytkownika"></li>
+                    <li>Twoje super tajne haslo (Pssst... Przynajmniej 8 znakow...):</li>
                     <li><input type="password", id="password" name="password", placeholder="Hasło"></li>
+                    <li>I jeszcze raz poproszę, to samo!:</li>
                     <li><input type="password", id="confirmPassword" name="confirmPassword", placeholder="Powtórzone hasło"></li>
+                    <li>A teraz imię:</li>
                     <li><input type="text", id="firstname" name="firstname", placeholder="Imię"></li>
+                    <li>Nazwisko poproszę:</li>
                     <li><input type="text", id="lastname" name="lastname", placeholder="Nazwisko"></li>
                     <li><label for="sex">Wybierz płeć:</label>
                         <select id="sex" name="sex">
@@ -24,10 +29,11 @@
                           <option value="F">F</option>
                         </select>
                     </li>
-                    <l1>
+                    <li>
                         <label for="photo">Kopsnij zdjątko:</label>
                         <input type="file" id="photo" name="photo">
-                    </l1>
+                    </li>
+                    <li>A ten guziczek zadziała jak spełnisz wszystkie waruneczki</li>
                     <li><input type="submit", id="submit", name="submit", value="Zarejestruj" disabled></li>
                 </ul>
             </form>
