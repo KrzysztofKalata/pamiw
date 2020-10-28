@@ -102,7 +102,7 @@ function validateLogin () {
         alert('Brak loginu');
         return false;
     }
-    var letters = /^[A-Za-z]+/;
+    var letters = /^[a-z]+/;
     if(login.match(letters) === null || login.match(letters)[0] !== login){
         if(!validateAllFlag){
             alert('Błędny login');
