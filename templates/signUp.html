@@ -1,0 +1,41 @@
+<!doctype>
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/main.css"></link>
+        <script src="/static/main.js" defer></script>
+    </head>
+        <body>
+            <div class="navigationBar">
+                <a href="/">Home</a>
+                <a class="active" href="/sender/sign-up">Sign up</a>
+            </div>
+            <h1>Formularz rejestracyjny</h1>
+            <h4>Witamy w formularzu rejestracyjnym, proszę podaj nam swoje dane:</h4>
+            <form action="https://infinite-hamlet-29399.herokuapp.com/sender/register" method="POST" id ="register" enctype="multipart/form-data">
+                <ul>
+                    <li><input type="text", id="login" name="login", placeholder="Nazwa użytkownika"></li>
+                    <li><input type="password", id="password" name="password", placeholder="Hasło"></li>
+                    <li><input type="password", id="confirmPassword" name="confirmPassword", placeholder="Powtórzone hasło"></li>
+                    <li><input type="text", id="firstname" name="firstname", placeholder="Imię"></li>
+                    <li><input type="text", id="lastname" name="lastname", placeholder="Nazwisko"></li>
+                    <li><label for="sex">Wybierz płeć:</label>
+                        <select id="sex" name="sex">
+                          <option value="M">M</option>
+                          <option value="F">F</option>
+                        </select>
+                    </li>
+                    <l1>
+                        <label for="photo">Kopsnij zdjątko:</label>
+                        <input type="file" id="photo" name="photo">
+                    </l1>
+                    <li><input type="submit", id="submit", name="submit", value="Zarejestruj" disabled></li>
+                </ul>
+            </form>
+            <footer>
+                <ul>
+                    <li>2020</li>
+                    <li>https://git.heroku.com/ancient-bastion-68029.git</li>
+                </ul>
+            </footer>
+        </body>
+</html>
