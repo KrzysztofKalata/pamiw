@@ -13,12 +13,15 @@ function attachEvents(){
 
     var confirmPassword = document.getElementById("confirmPassword");
     confirmPassword.addEventListener("change",validateAll);
+    
+    var photo = document.getElementById("photo");
+    photo.addEventListener("change",validateAll);
 
 }
 
 function validateAllOther(){
     var submit = document.getElementById("submit");
-    if(validateFirstName() && validateLastName() && validatePassword() && checkPasswordsEqual()){
+    if(validateFirstName() && validateLastName() && validatePassword() && checkPasswordsEqual() && validatePhoto()){
         submit.disabled = false;
     } else {
         submit.disabled = true;
@@ -45,7 +48,7 @@ function validateFirstName(){
         return false;
     }
     var letters = /^[A-Z]{1}[a-z]+/;  
-    if(firstname.match(letters)[0] === firstname){
+    if(firstname.match(letters) !== null && firstname.match(letters)[0] === firstname){
         return true;
     } else {
         alert("Blędne imię");
@@ -53,21 +56,19 @@ function validateFirstName(){
     }
 }
 
-
 function validateLastName(){
     var lastname = document.getElementById("lastname").value;
     if(lastname === ''){
         return false;
     }
     var letters = /^[A-Z]{1}[a-z]+/;
-    if(lastname.match(letters)[0] === lastname){
+    if(lastname.match(letters) !== null && lastname.match(letters)[0] === lastname){
         return true;
     } else {
         alert("Blędne nazwisko");
         return false;
     }
 }
-
 
 function validatePassword(){
     var password = document.getElementById("password").value;
@@ -82,6 +83,17 @@ function validatePassword(){
     }
 }
 
+function validatePhoto () {
+    var photo = document.getElementById("photo");
+    console.log(photo);
+    console.log(photo.value);
+    if(photo.value === ''){
+        return false;
+    } else {
+        return true;
+    }
+}
+
 function validateAll(){
     login = document.getElementById("login").value;
     validateFirstName();
@@ -89,7 +101,12 @@ function validateAll(){
     validatePassword();
     checkPasswordsEqual();
     if(login === ''){
-        console.log('brak loginu');
+        console.log('Brak loginu');
+        return false;
+    }
+    var letters = /^[A-Za-z]+/;
+    if(login.match(letters) === null || login.match(letters)[0] !== login){
+        alert('Błędny login');
         return false;
     }
     let requestUrl = "https://infinite-hamlet-29399.herokuapp.com/check/" + login;
