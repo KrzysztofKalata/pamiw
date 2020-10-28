@@ -1,31 +1,27 @@
 function attachEvents(){
     var firstname = document.getElementById("firstname");
     firstname.addEventListener("change",validateAll);
+    firstname.addEventListener("change",validateFirstName);
 
     var lastname = document.getElementById("lastname");
     lastname.addEventListener("change",validateAll);
+    lastname.addEventListener("change",validateLastName);
 
     var login = document.getElementById("login");
     login.addEventListener("change",validateAll);
+    login.addEventListener("change",validateLogin);
     
     var password = document.getElementById("password");
     password.addEventListener("change",validateAll);
+    password.addEventListener("change",validatePassword);
 
     var confirmPassword = document.getElementById("confirmPassword");
     confirmPassword.addEventListener("change",validateAll);
+    confirmPassword.addEventListener("change",checkPasswordsEqual);
     
     var photo = document.getElementById("photo");
     photo.addEventListener("change",validateAll);
 
-}
-
-function validateAllOther(){
-    var submit = document.getElementById("submit");
-    if(validateFirstName() && validateLastName() && validatePassword() && checkPasswordsEqual() && validatePhoto()){
-        submit.disabled = false;
-    } else {
-        submit.disabled = true;
-    }
 }
 
 function checkPasswordsEqual(){
@@ -37,7 +33,9 @@ function checkPasswordsEqual(){
     if(password == confirmPassword){
         return true;
     } else {
-        alert("Hasła nie są takie same");
+        if(!validateAllFlag){
+            alert("Hasła nie są takie same");
+        }
         return false;
     }
 }
@@ -51,7 +49,9 @@ function validateFirstName(){
     if(firstname.match(letters) !== null && firstname.match(letters)[0] === firstname){
         return true;
     } else {
-        alert("Blędne imię");
+        if(!validateAllFlag){
+            alert("Blędne imię");
+        }
         return false;
     }
 }
@@ -65,7 +65,9 @@ function validateLastName(){
     if(lastname.match(letters) !== null && lastname.match(letters)[0] === lastname){
         return true;
     } else {
-        alert("Blędne nazwisko");
+        if(!validateAllFlag){
+            alert("Blędne nazwisko");
+        }
         return false;
     }
 }
@@ -78,7 +80,9 @@ function validatePassword(){
     if(String(password).length > 7){
         return true; 
     } else {
-        alert("Hasło musi mieć przynajmniej 8 znaków");
+        if(!validateAllFlag){
+            alert("Hasło musi mieć przynajmniej 8 znaków");
+        }
         return false; 
     }
 }
@@ -94,21 +98,61 @@ function validatePhoto () {
     }
 }
 
-function validateAll(){
+function validateLogin () {
     login = document.getElementById("login").value;
-    validateFirstName();
-    validateLastName();
-    validatePassword();
-    checkPasswordsEqual();
     if(login === ''){
         console.log('Brak loginu');
         return false;
     }
     var letters = /^[A-Za-z]+/;
     if(login.match(letters) === null || login.match(letters)[0] !== login){
-        alert('Błędny login');
+        if(!validateAllFlag){
+            alert('Błędny login');
+        }
         return false;
+    } else {
+        return true;
     }
+}
+
+var validateAllFlag = false;
+
+function validateAll(){
+    validateAllFlag = true;
+    login = document.getElementById("login").value;
+    if(!validateLogin()){
+        submit.disabled = true;
+        validateAllFlag = false;
+        return;
+    }
+    if(!validateFirstName()){
+        submit.disabled = true;
+        validateAllFlag = false;
+        return;
+    }
+    if(!validateLastName()){
+        submit.disabled = true;
+        validateAllFlag = false;
+        return;
+    }
+    if(!validatePassword()){
+        submit.disabled = true;
+        validateAllFlag = false;
+        return;
+    }
+    if(!checkPasswordsEqual()){
+        submit.disabled = true;
+        validateAllFlag = false;
+        return;
+    }
+    if(!validatePhoto()){
+        submit.disabled = true;
+        validateAllFlag = false;
+        return;
+    }
+    validateAllFlag = false;
+    
+    
     let requestUrl = "https://infinite-hamlet-29399.herokuapp.com/check/" + login;
     const xhr = new XMLHttpRequest();
     xhr.open("GET", requestUrl, false);
@@ -118,9 +162,9 @@ function validateAll(){
             console.log(xhr.status);
             console.log(jsonResponse);
             if(xhr.status == 200 && jsonResponse[login] == 'available'){
-                console.log('po walidacji loginu');
-                validateAllOther();
+                submit.disabled = false;
             } else {
+                submit.disabled = true;
                 alert("Login nie jest unikalny");
                 return false;
             }
