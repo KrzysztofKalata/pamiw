@@ -44,34 +44,30 @@ function validateFirstName(){
     if(firstname === ''){
         return false;
     }
-    if (String(firstname).length > 1) {
-        var firstChar = String(firstname).charAt(0);
-        var withoutFirstChar = String(firstname).substring(1,String(firstname).length);
-        if(firstChar === firstChar.toUpperCase() && withoutFirstChar === withoutFirstChar.toLowerCase()){
-            return true;
-        } else {
-            alert("Blędne imię");
-            return false;
-        }
+    var letters = /^[A-Z]{1}[a-z]+/;  
+    if(firstname.match(letters)[0] === firstname){
+        return true;
+    } else {
+        alert("Blędne imię");
+        return false;
     }
 }
+
 
 function validateLastName(){
     var lastname = document.getElementById("lastname").value;
     if(lastname === ''){
         return false;
     }
-    if (String(lastname).length > 1) {
-        var firstChar = String(lastname).charAt(0);
-        var withoutFirstChar = String(lastname).substring(1,String(lastname).length);
-        if(firstChar === firstChar.toUpperCase() && withoutFirstChar === withoutFirstChar.toLowerCase()){
-            return true;
-        } else {
-            alert("Blędne nazwisko");
-            return false;
-        }
+    var letters = /^[A-Z]{1}[a-z]+/;
+    if(lastname.match(letters)[0] === lastname){
+        return true;
+    } else {
+        alert("Blędne nazwisko");
+        return false;
     }
 }
+
 
 function validatePassword(){
     var password = document.getElementById("password").value;
